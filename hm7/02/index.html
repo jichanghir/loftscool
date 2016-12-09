@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>bom1</title>
+</head>
+<body>
+	<table id="cookieTable" border="1">
+		<tr>
+			<td><b>Имя</b></td>
+			<td><b>Значение</b></td>
+		</tr>
+	</table>
+	<form action="" id="cookieForm">
+		<input type="text" id="cookieName"> Имя куки <br>
+		<input type="text" id="cookieValue"> Значение куки <br>
+		<input type="number" id="cookieExpires"> Срок годности <br>
+		<input type="submit" value="addCookie">
+	</form>
+		
+	<script>
+		(function(){
+			var doc = document,
+					inputCoockieName = doc.getElementById( 'cookieName' ),
+					inputCoockieValue = doc.getElementById( 'cookieValue' ),
+					inputCoockieExpires = doc.getElementById( 'cookieExpires' ),
+					cookieId = 1;
+
+			doc.forms[0].addEventListener('submit', function(e){
+				e.preventDefault();
+				if( (inputCoockieName.value.length > 0) && (inputCoockieValue.value.length > 0) && (inputCoockieExpires.value.length > 0) ){
+					var current = inputCoockieName.value + '=' + inputCoockieValue.value,
+							date = new Date();
+					date.setDate( date.getDate() + (+inputCoockieExpires.value) );
+
+					doc.cookie = current + ';' + 'expires=' + date.toUTCString(); // записываем новую куку
+
+					addCookie( current, cookieId ); // выводим куку в таблицу
+					cookieId++;
+
+					inputCoockieName.value = '';
+					inputCoockieValue.value = '';
+					inputCoockieExpires.value = '';
+				}
+				else{
+					alert( 'Заполните все поля формы' );
+				}
+			});
+
+
+			// устанавливаем куки
+			doc.cookie = "first=1";
+			doc.cookie = "second=2";
+			doc.cookie = "third=3";
+			doc.cookie = "fourth=4";
+			doc.cookie = "fifth=5";
+
+			// функция добавления куки в таблицу
+			function addCookie(current, index){
+				var tr = doc.createElement('tr'),
+						tdName = doc.createElement('td'),
+						tdValue = doc.createElement('td'),
+						tdForA = doc.createElement('td'),
+						button = doc.createElement('button'),
+						currentName = current.split('=')[0].trim(),
+						currentValue = current.split('=')[1],
+						date = new Date();
+				date.setDate( date.getDate() - 1 );
+
+				tdName.id = index;
+				button.setAttribute('data-id-cookie', index);
+
+				// устанавливаем обработчик на удаление куки
+				button.addEventListener('click', function(e){
+					var confirmRezult = confirm('Удалить cookie с именем ' + currentName + ' ?');
+					if( confirmRezult ){
+						var coockieNameToDelete = doc.getElementById( e.target.getAttribute('data-id-cookie') ).innerHTML; 
+						doc.cookie = coockieNameToDelete + "=;expires=" + date.toUTCString();
+
+						e.target.parentNode.parentNode.remove() // удаляем tr с куки
+					}
+				});
+
+				tdName.innerHTML = currentName;
+				tdValue.innerHTML = currentValue;
+				button.innerHTML = 'Удалить';					
+
+				tdForA.appendChild(button);
+				tr.appendChild(tdName);
+				tr.appendChild(tdValue);
+				tr.appendChild(tdForA);
+
+				cookieTable.appendChild(tr);
+			}
+
+			// вывод всех существующих куки
+			(function(){
+				var x = doc.cookie.split(';');
+
+				x.forEach(function(current, index){
+					addCookie(current, index);
+
+					cookieId++; // после вывода всех куки cookieId будет равно следующему индексу
+				});
+
+			})();
+
+		})();
+		
+	</script>
+
+</body>
+</html>
