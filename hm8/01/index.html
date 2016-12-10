@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ajax</title>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+
+</head>
+<body>
+<input type="text" id="search" placeholder="search">
+<div id="result_block"></div>
+
+
+	<script type="text/x-handlebars-template" id="cities">
+		<ul>
+			{{#each list}}
+			<li>
+				{{name}}
+			</li>
+			{{/each}}
+		</ul>
+	</script>
+
+	<script>
+		var mass = [];
+
+		new Promise(function(resolve){
+			if(document.readyState === 'compile'){
+				resolve();
+			}
+			else{
+				window.onload = resolve;
+			}
+		})
+		.then(function(){
+			return new Promise(function(resolve, reject){
+				var xhr = new XMLHttpRequest();
+
+				xhr.open('GET', 'https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json');
+				xhr.responseType = 'json';
+				xhr.send();
+
+				xhr.addEventListener('load', function(){					
+					resolve(xhr.response);
+				});
+				xhr.addEventListener('error', function(){
+					reject();
+				});
+			})
+		})
+		.then(
+			function(result){
+
+				// сортируем
+				result.sort(function(obj1, obj2){
+					if( obj1.name > obj2.name ) return 1;
+					else if( obj1.name < obj2.name ) return -1;
+					else return 0;
+				});
+
+				mass = result;
+
+				// выводим
+				showResult( result );
+
+			},
+			function(){
+				console.log('ошибка');
+			})
+		.catch(function(e){
+			console.log( e.message );
+		});
+
+		function filter(e){
+
+			var resultMass = mass.filter(function(obj){
+				let regExpStr = new RegExp( e.target.value, 'i'),
+				str = obj.name, 
+				rez = str.search( regExpStr ) != -1; 
+
+				return rez;
+			});	
+
+			// выводим
+			showResult( resultMass );
+		}
+
+		function showResult(mass){
+			let source = cities.innerHTML;
+			let templateFn = Handlebars.compile(source);
+			let template = templateFn({ list: mass });
+
+			result_block.innerHTML = template;
+		}
+
+
+		search.addEventListener('input', filter);
+
+	</script>
+	
+</body>
+</html>
