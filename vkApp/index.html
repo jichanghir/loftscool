@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>vk App</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+
+	<script src="https://vk.com/js/api/openapi.js?136" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>	
+
+</head>
+<body>
+	<div class="wrapper">
+		<header class="wrapper-header">
+			Выберите друзей
+		</header>
+		<div class="wrapper-lists">
+			<div class="wrapper-lists-left">
+				<div class="wrapper-lists-left-search">
+					<input type="text" id="leftSearchInput" placeholder="Поиск">
+				</div>
+				<div class="wrapper-lists-left-title"> Ваши друзья </div>
+				<div class="wrapper-lists-left-list">
+					<ul id="leftUlFriends" class="friendsInList" ondragenter="return dragEnter(event)" ondrop="return dragDrop(event)" ondragover="return dragOver(event)">
+					</ul>
+				</div>
+			</div>
+
+			<div class="wrapper-lists-right">
+				<div class="wrapper-lists-right-search">
+					<input type="text" id="rightSearchInput" placeholder="Поиск">
+				</div>
+				<div class="wrapper-lists-right-title"> Друзья в списке </div>
+				<div class="wrapper-lists-right-list">
+					<ul id="rightUlFriends" class="friendsInList" ondragenter="return dragEnter(event)" ondrop="return dragDrop(event)" ondragover="return dragOver(event)">
+					</ul>
+				</div>
+			</div>
+		</div>
+		<footer class="wrapper-footer">
+			<button id="saveLists" class="wrapper-footer-save">Сохранить</button>
+		</footer>
+
+	</div>
+
+	<script src="script.js"></script>
+
+	<script type="text/x-handlebars-template" id="friendsList">		
+			{{#each list}}
+			<li draggable="true" class="friends_list-li" draggable="true" ondragstart="return dragStart(event)">
+				<div class="ptoho-user" style="{{photo_style}}"></div>
+				<div class="fio-user"> {{fio}} </div>
+				<div class="add-user"> + </div>
+			</li>
+			{{/each}}
+	</script>
+
+	
+</body>
+</html>
