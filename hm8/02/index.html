@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+  <link rel="stylesheet" href="style.css">
+
+	<script src="https://vk.com/js/api/openapi.js?136" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+
+</head>
+<body>
+  
+  <h1 id="titleH1"></h1>
+  <div id="showFriends"></div>
+
+  <script type="text/x-handlebars-template" id="friends">
+    <ul class="friends_list">
+      {{#each list}}
+      <li>
+        <div class="photo"> <img src="{{photo_50}}" alt=""></div>
+        <div class="name"> {{first_name}} {{last_name}}</div>     
+        <div class="bDate"> Дата рождения: {{bdate}} </div>
+        <div class="age"> Возраст: {{age}}</div>
+      </li>
+      {{/each}}
+    </ul>
+  </script>
+
+  <script src="script.js"></script>
+
+	
+</body>
+</html>

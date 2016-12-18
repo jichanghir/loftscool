@@ -1,0 +1,11 @@
+.friends_list
+{
+	list-style: none;
+}
+
+.friends_list li
+{
+	border-bottom: 1px solid #03a9f4;
+	margin-bottom: 10px;
+}
+
