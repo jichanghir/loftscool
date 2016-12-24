@@ -1,0 +1,10 @@
+{
+  "name": "vkApp",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-webmake": "0.0.41"
+  }
+}
