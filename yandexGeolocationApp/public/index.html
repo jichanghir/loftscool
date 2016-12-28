@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,300i,400,400i,500,500i,700,700i" rel="stylesheet">
+
+	<link rel="stylesheet" href="css/as_grid.css">
+	<link rel="stylesheet" href="css/style.css">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+
+	<script src="https://api-maps.yandex.ru/2.1/?lang=tr_TR" type="text/javascript"></script>
+	<script src="js/script.js"></script>
+
+</head>
+<body>
+
+	<div id="map" style="width: 100%; height: 100%"></div>
+
+	<script type="text/x-handlebars-template" id="commentsTemplate">
+
+		<div class="ballon-content-comments">
+			<div class="ballon-content-comments-ballon">
+				{{#if list}}
+					{{#each list}}  
+					<div class="ballon-content-comment-comment">
+						<b>{{name}}</b> <span>{{place}}</span> 
+						<br />
+						{{impression}} 
+					</div>  
+					{{/each}}
+
+
+				{{else}}
+				<div class="ballon-content-comment-comment">
+					<b>Нет комментариев</b>
+				</div>  
+				{{/if}}
+			</div>
+
+    <div class="ballon-content-separator"></div>
+
+    <form action="" class="ballon-content-form">
+			<div class="ballon-content-form-title">Ваш отзыв</div>
+			<input type="text" placeholder="Ваше имя" name="name">
+			<input type="text" placeholder="Укажите место" name="place">
+			<textarea placeholder="Поделитесь впечатлениями" name="impression"></textarea>
+			<input type="submit" value="Добавить" data-addcomment="addcomment">
+    </form>
+    </div>
+
+	</script>
+
+	<script type="text/x-handlebars-template" id="ClasterCommentsTemplate">
+
+		<div class="ballon-content-separator"></div>
+
+		<div class="ballon-content-comments">
+		{{#if list}}
+			{{#each list}}  
+				<div class="ballon-content-comment-comment">
+					<b>{{name}}</b> <span>{{place}}</span> 
+					<br />
+					{{impression}} 
+				</div>  
+	    {{/each}}
+		
+		{{else}}
+			<div class="ballon-content-comment-comment">
+				<b>Нет комментариев</b>
+			</div>  
+    {{/if}}
+
+    </div>
+
+	</script>
+
+</body>
+</html>
