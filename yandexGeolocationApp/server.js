@@ -1,32 +1,32 @@
 var http = require('http'),
-		fs = require('fs'),
-		path = require('path'),
-		config = {
-			defaultPage : 'index.html',
-			page404 : '404.html',
-			mime : {
-				'.html' : {
-						type :'text/html',
-						encoding : 'utf-8'
-				},
-				'.css' : {
-						type : 'text.css',
-						encoding : 'utf-8'
-				},
-				'.js' : {
-						type : 'application/javascript',
-						encoding : 'utf-8'
-				},
-				'.jpg' : {
-						type : 'image/jpeg',
-						encoding : ''
-				},
-				'.png' : {
-						type : 'image/png',
-						encoding : ''
-				}
+	fs = require('fs'),
+	path = require('path'),
+	config = {
+		defaultPage : 'index.html',
+		page404 : '404.html',
+		mime : {
+			'.html' : {
+					type :'text/html',
+					encoding : 'utf-8'
+			},
+			'.css' : {
+					type : 'text/css',
+					encoding : 'utf-8'
+			},
+			'.js' : {
+					type : 'application/javascript',
+					encoding : 'utf-8'
+			},
+			'.jpg' : {
+					type : 'image/jpeg',
+					encoding : ''
+			},
+			'.png' : {
+					type : 'image/png',
+					encoding : ''
 			}
-		};
+		}
+	};
 
 var comments = [];
 
@@ -131,11 +131,11 @@ var server = http.createServer(function (request, response){
 			data += chunk.toString();
 		});
 		request.on('end', function() {
-			
+
 
 			if( data === 'getAllPlacemark' ) {
-				console.log('getAllPlacemark', data);		
-				var rezult = getAllPlacemarks();		
+				console.log('getAllPlacemark', data);
+				var rezult = getAllPlacemarks();
 				response.end(rezult);
 			}
 
@@ -145,12 +145,12 @@ var server = http.createServer(function (request, response){
 				var rezult = getComments(data); // получаем все комментарии по координатам
 				response.end(rezult);
 			}
-		
+
 		});
 	}
-	
+
 
 });
 
 
-server.listen(8855);
+server.listen(8485);
