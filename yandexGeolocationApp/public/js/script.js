@@ -34,10 +34,10 @@
 										'</a>' 																																	+
 										'<div class="ballon-header-adress">{{properties.balloonHeader}}</div>' 	+
 									'</div>' 																																	+
-									'<div class="ballon-content">' 																						+	 
+									'<div class="ballon-content">' 																						+
 										'$[[options.contentLayout]]' 																						+
 									'</div>' 																																	+
-								'</div>', 
+								'</div>',
 								{
 									build: function () {
 										this.constructor.superclass.build.call(this);
@@ -59,7 +59,7 @@
 
 							resolve();
 						}
-				
+
 						ymaps.ready(init);
 
 					});
@@ -82,23 +82,23 @@
 						var templateElement = document.getElementById(template),
 								templateSource = templateElement.innerHTML,
 								renderFn = Handlebars.compile(templateSource);
-								
-						return renderFn({ 
-							 list: commentsMass 
+
+						return renderFn({
+							 list: commentsMass
 						});
 
 					}
 					comments = renderComments( null, 'commentsTemplate'),
 					clasterComments = renderComments( null, 'ClasterCommentsTemplate');
 
-//===================================					
+//===================================
 					// создание кластера
 
 					// Создаем собственный макет с информацией о выбранном геообъекте.
     			var customItemContentLayout = ymaps.templateLayoutFactory.createClass(
         		// Флаг "raw" означает, что данные вставляют "как есть" без экранирования html.
 	        	'<h2 class=ballon_header><a href="#" data-openbaloon="{{properties.thisCoords}}">{{ properties.balloonHeader|raw }}</a></h2>' +
-	        	'<div class=ballon_body>{{ properties.clasterComments|raw }}</div>' 
+	        	'<div class=ballon_body>{{ properties.clasterComments|raw }}</div>'
         	);
 
 					var clusterer = new ymaps.Clusterer({
@@ -108,7 +108,7 @@
 		        clusterBalloonContentLayout: 'cluster#balloonCarousel',
 		        // Устанавливаем собственный макет.
 		        clusterBalloonItemContentLayout: customItemContentLayout,
-		        // Устанавливаем режим открытия балуна. 
+		        // Устанавливаем режим открытия балуна.
 		        // В данном примере балун никогда не будет открываться в режиме панели.
 		        //clusterBalloonPanelMaxMapArea: 0,
 		        // Устанавливаем размеры макета контента балуна (в пикселях).
@@ -166,17 +166,17 @@
 							.then(function(){
 								element.balloon.open();
 							});
-							
+
 						}
 					});
 
 //===================================
 					// функция добавления метки
 					function addPlacemark(coords){
-				
+
 						var myPlacemark = new ymaps.Placemark(
-							coords, 
-							{ 
+							coords,
+							{
 								comments: comments,
 								clasterComments : clasterComments,
 								thisCoords : coords
@@ -190,9 +190,10 @@
 
 						// определяем элемент и его координаты сразу при установке
 						element = myPlacemark;
-						coordsElement = myPlacemark.geometry._coordinates;	
+						coordsElement = myPlacemark.geometry._coordinates;
 
-						myPlacemark.properties.set('balloonContent', content);
+						myPlacemark.properties.set('balloonContent', coordsElement);
+						//myPlacemark.properties.set('balloonContent', content);
 
 						// определение адреса по координатам
 						ymaps.geocode(coords).then(function (res) {
@@ -208,9 +209,9 @@
 						myMap.geoObjects.add(myPlacemark);
 
 						// получение адреса по координатам при открытии балуна
-						myPlacemark.events.add('click', function (e) {						
-							element = e.get('target');	
-							coordsElement = e.get('target').geometry._coordinates;		
+						myPlacemark.events.add('click', function (e) {
+							element = e.get('target');
+							coordsElement = e.get('target').geometry._coordinates;
 							console.log('coordsElement', coordsElement);
 						});
 
@@ -219,7 +220,7 @@
 
 						// вызов функции добавления в кластер всех элементов
 						addAllToClaster();
-						
+
 					}
 
 
@@ -237,10 +238,10 @@
 					xhr.addEventListener('load', function(){
 						var allPlacemarks = xhr.responseText;
 						allPlacemarks = eval(allPlacemarks);
-						
+
 						// собственно выводим каждую метку
 						allPlacemarks.forEach(function(value, key){
-							
+
 							var x = +value.coordsX,
 									y = +value.coordsY,
 									coords = [x,y],
@@ -262,7 +263,7 @@
 								element.properties
 								.set({
 									iconContent: value.comment.length
-								});						
+								});
 							}
 
 						});
@@ -278,7 +279,7 @@
 
 //===================================
 					// создание новой метки по клику на карте
-					myMap.events.add('click', function (e) {						
+					myMap.events.add('click', function (e) {
 						var coords = e.get('coords');
 
 						addPlacemark(coords);
@@ -326,7 +327,7 @@
 
 							// если все поля заполнены
 							if( (name != '') && (place != '') && (impression != '') ) {
-								
+
 								// подготавливаем к отправке на сервер
 								var json = JSON.stringify({
 									coordsX : coordsElement[0].toString(),
@@ -363,19 +364,19 @@
 										element.properties
 										.set({
 											iconContent: responsemass.length
-										});						
+										});
 									}
 
 								});
 								xhr.addEventListener('error', function(){
 									console.log('error');
 								});
-							}	
+							}
 
 
 						}
 					});
-			
+
 
 				}
 
